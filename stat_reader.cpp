@@ -8,33 +8,65 @@ using namespace std::string_literals;
 void ParseAndPrintStat(const TransportCatalogue &transport_catalogue,
                        std::string_view request, std::ostream &output)
 {
-  std::string_view bus_name = request.substr(
-      request.find_first_of(' ') + 1,
-      request.find_last_not_of(' ') - request.find_first_of(' '));
-
-  Bus *target = transport_catalogue.FindBus(bus_name);
-  output << "Bus "s << bus_name << ": "s;
-  if (target == nullptr)
+  size_t first_of_space = request.find_first_of(' ');
+  size_t first_not_of_space = request.find_first_not_of(' ');
+  size_t last_not_of_space = request.find_last_not_of(' ');
+  std::string_view command_name = request.substr(first_not_of_space, first_of_space - first_not_of_space);
+  std::string_view command_id = request.substr(
+      first_of_space + 1,
+      last_not_of_space - first_of_space);
+  if (command_name == "Bus"s)
   {
-    output << "not found\n";
-    return;
-  }
-  std::unordered_set<Stop *> unique_stops(target->stops.begin(),
-                                          target->stops.end());
-  double distance = 0.;
-  for (auto it = target->stops.begin(); it < target->stops.end(); ++it)
-  {
-    if (std::next(it) != target->stops.end())
+    Bus *target = transport_catalogue.FindBus(command_id);
+    output << "Bus "s << command_id << ": "s;
+    if (target == nullptr)
     {
-      distance += transport_catalogue.FindDistance(std::make_pair(*it, *(it + 1)));
+      output << "not found\n";
+      return;
+    }
+    std::unordered_set<Stop *> unique_stops(target->stops.begin(),
+                                            target->stops.end());
+    double distance = 0.;
+    for (auto it = target->stops.begin(); it < target->stops.end(); ++it)
+    {
+      if (std::next(it) != target->stops.end())
+      {
+        distance += ComputeDistance((*it)->coordinates, (*next(it))->coordinates);
+      }
+    }
+    output << target->stops.size() << " stops on route, "
+           << unique_stops.size() << " unique stops, "
+           << distance << " route length"s
+           << "\n"s;
+  }
+  else if (command_name == "Stop"s)
+  {
+    output << "Stop "s << command_id << ": "s;
+    Stop *target_stop = transport_catalogue.FindStop(command_id);
+    if (target_stop == nullptr)
+    {
+      output << "not found\n"s;
+      return;
+    }
+    std::set<std::string_view> busses = transport_catalogue.FindBusesByStop(target_stop);
+    if (busses.empty())
+    {
+      output << "no buses\n";
     }
     else
     {
-      distance += transport_catalogue.FindDistance(std::make_pair(*it, *target->stops.begin()));
+      output << "buses ";
+      bool is_first = true;
+      for (std::string_view bus : busses)
+      {
+        if (!is_first)
+        {
+          output << " "s;
+        }
+        output << bus;
+        is_first = false;
+      }
+      output << "\n"s;
     }
   }
-  output << target->stops.size() << " stops on route, "
-         << unique_stops.size() << " unique stops, "
-         << distance << " route length"s
-         << "\n"s;
 }

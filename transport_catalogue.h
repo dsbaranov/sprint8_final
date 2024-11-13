@@ -8,7 +8,8 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
-
+#include <unordered_set>
+#include <set>
 #include "geo.h"
 /**
  * Структура остановки.
@@ -41,6 +42,10 @@ struct Stop
     name = std::move(other.name);
     coordinates = std::move(other.coordinates);
     return *this;
+  }
+  bool operator==(const Stop &rhs) const
+  {
+    return this->name == rhs.name && this->coordinates == rhs.coordinates;
   }
 };
 
@@ -77,15 +82,6 @@ struct Bus
   }
 };
 
-struct DistancesHasher
-{
-  size_t operator()(std::pair<Stop *, Stop *> stops) const
-  {
-    return reinterpret_cast<size_t>(stops.first) +
-           reinterpret_cast<size_t>(stops.second) * 17;
-  }
-};
-
 class TransportCatalogue
 {
 public:
@@ -97,13 +93,12 @@ public:
 
   Bus *FindBus(std::string_view name) const;
 
-  double FindDistance(const std::pair<Stop *, Stop *> target) const;
+  std::set<std::string_view> FindBusesByStop(Stop *stop) const;
 
 private:
   std::deque<Stop> stops_;
   std::deque<Bus> busses_;
   std::unordered_map<std::string_view, Stop *> stopname_to_stop_;
   std::unordered_map<std::string_view, Bus *> busname_to_bus_;
-  std::unordered_map<std::pair<Stop *, Stop *>, double, DistancesHasher>
-      distances_;
+  std::unordered_map<Stop *, std::set<std::string_view>> stop_to_busses_;
 };

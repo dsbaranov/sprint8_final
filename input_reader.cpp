@@ -10,13 +10,15 @@ using namespace std::string_literals;
  * Парсит строку вида "10.123,  -30.1837" и возвращает пару координат (широта,
  * долгота)
  */
-Coordinates ParseCoordinates(std::string_view str) {
+Coordinates ParseCoordinates(std::string_view str)
+{
   static const double nan = std::nan("");
 
   auto not_space = str.find_first_not_of(' ');
   auto comma = str.find(',');
 
-  if (comma == str.npos) {
+  if (comma == str.npos)
+  {
     return {nan, nan};
   }
 
@@ -31,9 +33,11 @@ Coordinates ParseCoordinates(std::string_view str) {
 /**
  * Удаляет пробелы в начале и конце строки
  */
-std::string_view Trim(std::string_view string) {
+std::string_view Trim(std::string_view string)
+{
   const auto start = string.find_first_not_of(' ');
-  if (start == string.npos) {
+  if (start == string.npos)
+  {
     return {};
   }
   return string.substr(start, string.find_last_not_of(' ') + 1 - start);
@@ -43,17 +47,21 @@ std::string_view Trim(std::string_view string) {
  * Разбивает строку string на n строк, с помощью указанного символа-разделителя
  * delim
  */
-std::vector<std::string_view> Split(std::string_view string, char delim) {
+std::vector<std::string_view> Split(std::string_view string, char delim)
+{
   std::vector<std::string_view> result;
 
   size_t pos = 0;
-  while ((pos = string.find_first_not_of(' ', pos)) < string.length()) {
+  while ((pos = string.find_first_not_of(' ', pos)) < string.length())
+  {
     auto delim_pos = string.find(delim, pos);
-    if (delim_pos == string.npos) {
+    if (delim_pos == string.npos)
+    {
       delim_pos = string.size();
     }
     if (auto substr = Trim(string.substr(pos, delim_pos - pos));
-        !substr.empty()) {
+        !substr.empty())
+    {
       result.push_back(substr);
     }
     pos = delim_pos + 1;
@@ -68,8 +76,10 @@ std::vector<std::string_view> Split(std::string_view string, char delim) {
  * [A,B,C,A] Для некольцевого маршрута (A-B-C-D) возвращает массив названий
  * остановок [A,B,C,D,C,B,A]
  */
-std::vector<std::string_view> ParseRoute(std::string_view route) {
-  if (route.find('>') != route.npos) {
+std::vector<std::string_view> ParseRoute(std::string_view route)
+{
+  if (route.find('>') != route.npos)
+  {
     return Split(route, '>');
   }
 
@@ -80,19 +90,23 @@ std::vector<std::string_view> ParseRoute(std::string_view route) {
   return results;
 }
 
-CommandDescription ParseCommandDescription(std::string_view line) {
+CommandDescription ParseCommandDescription(std::string_view line)
+{
   auto colon_pos = line.find(':');
-  if (colon_pos == line.npos) {
+  if (colon_pos == line.npos)
+  {
     return {};
   }
 
   auto space_pos = line.find(' ');
-  if (space_pos >= colon_pos) {
+  if (space_pos >= colon_pos)
+  {
     return {};
   }
 
   auto not_space = line.find_first_not_of(' ', space_pos);
-  if (not_space >= colon_pos) {
+  if (not_space >= colon_pos)
+  {
     return {};
   }
 
@@ -101,32 +115,42 @@ CommandDescription ParseCommandDescription(std::string_view line) {
           std::string(line.substr(colon_pos + 1))};
 }
 
-void InputReader::ParseLine(std::string_view line) {
+void InputReader::ParseLine(std::string_view line)
+{
   auto command_description = ParseCommandDescription(line);
-  if (command_description) {
+  if (command_description)
+  {
     commands_.push_back(std::move(command_description));
   }
 }
 
-void InputReader::ApplyCommands(TransportCatalogue &catalogue) const {
+void InputReader::ApplyCommands(TransportCatalogue &catalogue) const
+{
   using namespace std::string_literals;
   std::vector<CommandDescription> stops;
   std::vector<CommandDescription> routes;
-  for (const CommandDescription &command : commands_) {
-    if (command.command == "Stop"s) {
+  for (const CommandDescription &command : commands_)
+  {
+    if (command.command == "Stop"s)
+    {
       stops.push_back(std::move(command));
-    } else if (command.command == "Bus"s) {
+    }
+    else if (command.command == "Bus"s)
+    {
       routes.push_back(std::move(command));
     }
   }
-  for (CommandDescription &stop : stops) {
+  for (CommandDescription &stop : stops)
+  {
     Stop _stop(std::move(stop.id), ParseCoordinates(stop.description));
     catalogue.AddStop(std::move(_stop));
   }
-  for (CommandDescription &route : routes) {
+  for (CommandDescription &route : routes)
+  {
     std::vector<std::string_view> str_stops = ParseRoute(route.description);
     std::vector<Stop *> stops;
-    for (std::string_view str_stop : str_stops) {
+    for (std::string_view str_stop : str_stops)
+    {
       stops.push_back(catalogue.FindStop(str_stop));
     }
     Bus bus(move(route.id), move(stops));
