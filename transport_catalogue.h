@@ -17,7 +17,8 @@
  * @param longitude double - долгота остановки
  * @note Сущность предназначена для хранения параметров одной остановки
  */
-struct Stop {
+struct Stop
+{
   std::string name;
   Coordinates coordinates;
   Stop() = default;
@@ -35,14 +36,16 @@ struct Stop {
       : name(std::move(other.name)),
         coordinates(std::move(other.coordinates)) {}
   // Move equality
-  Stop &operator=(Stop &&other) {
+  Stop &operator=(Stop &&other)
+  {
     name = std::move(other.name);
     coordinates = std::move(other.coordinates);
     return *this;
   }
 };
 
-struct Bus {
+struct Bus
+{
   std::string name;
   std::vector<Stop *> stops;
 
@@ -50,7 +53,8 @@ struct Bus {
   Bus(std::string &&_name, std::vector<Stop *> &&_stops)
       : name(move(_name)),
         stops(std::move_iterator(_stops.begin()),
-              std::move_iterator(_stops.end())) {
+              std::move_iterator(_stops.end()))
+  {
     _stops.clear();
   }
   Bus(Bus &other)
@@ -60,10 +64,12 @@ struct Bus {
   Bus(Bus &&other)
       : name(std::exchange(other.name, std::string())),
         stops(std::move_iterator(other.stops.begin()),
-              std::move_iterator(other.stops.end())) {
+              std::move_iterator(other.stops.end()))
+  {
     other.stops.clear();
   }
-  Bus &operator=(Bus &&other) {
+  Bus &operator=(Bus &&other)
+  {
     name = std::exchange(other.name, std::string());
     std::move(other.stops.begin(), other.stops.end(), stops.begin());
     other.stops.clear();
@@ -71,15 +77,18 @@ struct Bus {
   }
 };
 
-struct DistancesHasher {
-  size_t operator()(std::pair<Stop *, Stop *> stops) const {
+struct DistancesHasher
+{
+  size_t operator()(std::pair<Stop *, Stop *> stops) const
+  {
     return reinterpret_cast<size_t>(stops.first) +
            reinterpret_cast<size_t>(stops.second) * 17;
   }
 };
 
-class TransportCatalogue {
- public:
+class TransportCatalogue
+{
+public:
   void AddStop(Stop &&stop);
 
   Stop *FindStop(std::string_view name) const;
@@ -88,7 +97,9 @@ class TransportCatalogue {
 
   Bus *FindBus(std::string_view name) const;
 
- private:
+  double FindDistance(const std::pair<Stop *, Stop *> target) const;
+
+private:
   std::deque<Stop> stops_;
   std::deque<Bus> busses_;
   std::unordered_map<std::string_view, Stop *> stopname_to_stop_;

@@ -1,4 +1,3 @@
-
-/build/*
-
-.vscode
+# Build dir and CMakeLists
+build/*
+CMakeLists.txt

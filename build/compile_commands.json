@@ -1,26 +1,22 @@
 [
 {
-  "directory": "C:/Users/baranov_d/Documents/yandex/sprint8/sprint8_final/build",
-  "command": "C:\\Software\\msys64\\mingw64\\bin\\g++.exe -g -o CMakeFiles\\sprint8_final.dir\\main.cpp.obj -c C:\\Users\\baranov_d\\Documents\\yandex\\sprint8\\sprint8_final\\main.cpp",
-  "file": "C:\\Users\\baranov_d\\Documents\\yandex\\sprint8\\sprint8_final\\main.cpp",
-  "output": "CMakeFiles\\sprint8_final.dir\\main.cpp.obj"
+  "directory": "/home/marhur/Documents/yandex/sprint_8/sprint8_final/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/sprint8_final.dir/main.cpp.o -c /home/marhur/Documents/yandex/sprint_8/sprint8_final/main.cpp",
+  "file": "/home/marhur/Documents/yandex/sprint_8/sprint8_final/main.cpp"
 },
 {
-  "directory": "C:/Users/baranov_d/Documents/yandex/sprint8/sprint8_final/build",
-  "command": "C:\\Software\\msys64\\mingw64\\bin\\g++.exe -g -o CMakeFiles\\sprint8_final.dir\\input_reader.cpp.obj -c C:\\Users\\baranov_d\\Documents\\yandex\\sprint8\\sprint8_final\\input_reader.cpp",
-  "file": "C:\\Users\\baranov_d\\Documents\\yandex\\sprint8\\sprint8_final\\input_reader.cpp",
-  "output": "CMakeFiles\\sprint8_final.dir\\input_reader.cpp.obj"
+  "directory": "/home/marhur/Documents/yandex/sprint_8/sprint8_final/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/sprint8_final.dir/input_reader.cpp.o -c /home/marhur/Documents/yandex/sprint_8/sprint8_final/input_reader.cpp",
+  "file": "/home/marhur/Documents/yandex/sprint_8/sprint8_final/input_reader.cpp"
 },
 {
-  "directory": "C:/Users/baranov_d/Documents/yandex/sprint8/sprint8_final/build",
-  "command": "C:\\Software\\msys64\\mingw64\\bin\\g++.exe -g -o CMakeFiles\\sprint8_final.dir\\stat_reader.cpp.obj -c C:\\Users\\baranov_d\\Documents\\yandex\\sprint8\\sprint8_final\\stat_reader.cpp",
-  "file": "C:\\Users\\baranov_d\\Documents\\yandex\\sprint8\\sprint8_final\\stat_reader.cpp",
-  "output": "CMakeFiles\\sprint8_final.dir\\stat_reader.cpp.obj"
+  "directory": "/home/marhur/Documents/yandex/sprint_8/sprint8_final/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/sprint8_final.dir/stat_reader.cpp.o -c /home/marhur/Documents/yandex/sprint_8/sprint8_final/stat_reader.cpp",
+  "file": "/home/marhur/Documents/yandex/sprint_8/sprint8_final/stat_reader.cpp"
 },
 {
-  "directory": "C:/Users/baranov_d/Documents/yandex/sprint8/sprint8_final/build",
-  "command": "C:\\Software\\msys64\\mingw64\\bin\\g++.exe -g -o CMakeFiles\\sprint8_final.dir\\transport_catalogue.cpp.obj -c C:\\Users\\baranov_d\\Documents\\yandex\\sprint8\\sprint8_final\\transport_catalogue.cpp",
-  "file": "C:\\Users\\baranov_d\\Documents\\yandex\\sprint8\\sprint8_final\\transport_catalogue.cpp",
-  "output": "CMakeFiles\\sprint8_final.dir\\transport_catalogue.cpp.obj"
+  "directory": "/home/marhur/Documents/yandex/sprint_8/sprint8_final/build",
+  "command": "/usr/bin/c++   -g -o CMakeFiles/sprint8_final.dir/transport_catalogue.cpp.o -c /home/marhur/Documents/yandex/sprint_8/sprint8_final/transport_catalogue.cpp",
+  "file": "/home/marhur/Documents/yandex/sprint_8/sprint8_final/transport_catalogue.cpp"
 }
 ]
