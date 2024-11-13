@@ -108,8 +108,8 @@ void InputReader::ParseLine(std::string_view line) {
   }
 }
 
-void InputReader::ApplyCommands(
-    [[maybe_unused]] TransportCatalogue &catalogue) const {
+void InputReader::ApplyCommands(TransportCatalogue &catalogue) const {
+  using namespace std::string_literals;
   std::vector<CommandDescription> stops;
   std::vector<CommandDescription> routes;
   for (const CommandDescription &command : commands_) {
@@ -123,8 +123,14 @@ void InputReader::ApplyCommands(
     Stop _stop(std::move(stop.id), ParseCoordinates(stop.description));
     catalogue.AddStop(std::move(_stop));
   }
-  for (const CommandDescription &route : routes) {
-    std::vector<std::string_view> stops = ParseRoute(route.description);
-    catalogue.AddBus(route.id, move(stops));
+  for (CommandDescription &route : routes) {
+    std::vector<std::string_view> str_stops = ParseRoute(route.description);
+    std::vector<Stop *> stops;
+    for (std::string_view str_stop : str_stops) {
+      stops.push_back(catalogue.FindStop(str_stop));
+    }
+    Bus bus(move(route.id), move(stops));
+    catalogue.AddBus(std::move(bus));
   }
+  return;
 }

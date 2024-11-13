@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <deque>
 #include <stdexcept>
 #include <string>
@@ -44,6 +45,30 @@ struct Stop {
 struct Bus {
   std::string name;
   std::vector<Stop *> stops;
+
+  Bus() = default;
+  Bus(std::string &&_name, std::vector<Stop *> &&_stops)
+      : name(move(_name)),
+        stops(std::move_iterator(_stops.begin()),
+              std::move_iterator(_stops.end())) {
+    _stops.clear();
+  }
+  Bus(Bus &other)
+      : name(other.name), stops(other.stops.begin(), other.stops.end()) {}
+  Bus(const Bus &other)
+      : name(other.name), stops(other.stops.begin(), other.stops.end()) {}
+  Bus(Bus &&other)
+      : name(std::exchange(other.name, std::string())),
+        stops(std::move_iterator(other.stops.begin()),
+              std::move_iterator(other.stops.end())) {
+    other.stops.clear();
+  }
+  Bus &operator=(Bus &&other) {
+    name = std::exchange(other.name, std::string());
+    std::move(other.stops.begin(), other.stops.end(), stops.begin());
+    other.stops.clear();
+    return *this;
+  }
 };
 
 struct DistancesHasher {
@@ -66,6 +91,7 @@ class TransportCatalogue {
       distances_[std::make_pair(second_stop.second, target)] = dst;
     }
   }
+
   Stop *FindStop(std::string_view name) const {
     if (stopname_to_stop_.find(name) == stopname_to_stop_.end()) {
       throw std::out_of_range("stop doesn't exist");
@@ -73,21 +99,24 @@ class TransportCatalogue {
     return stopname_to_stop_.at(name);
   }
 
-  void AddBus(const std::string &name, std::vector<std::string_view> stops) {
-    std::vector<Stop *> bus_stops;
-    for (std::string_view stop : stops) {
-      bus_stops.push_back(FindStop(stop));
+  void AddBus(Bus &&bus) {
+    busses_.push_back(std::move(bus));
+    Bus *target = &busses_.back();
+    busname_to_bus_[target->name] = target;
+  }
+
+  Bus *FindBus(std::string_view name) {
+    if (busname_to_bus_.find(name) == busname_to_bus_.end()) {
+      return nullptr;
     }
-    busses_.push_back({move(name), move(bus_stops)});
+    return busname_to_bus_.at(name);
   }
 
  private:
-  double CalculateDistance(const Stop *first, const Stop *second) { return 0; }
-
   std::deque<Stop> stops_;
   std::deque<Bus> busses_;
   std::unordered_map<std::string_view, Stop *> stopname_to_stop_;
-  std::unordered_map<std::string_view, Bus> busname_to_stops_;
+  std::unordered_map<std::string_view, Bus *> busname_to_bus_;
   std::unordered_map<std::pair<Stop *, Stop *>, double, DistancesHasher>
       distances_;
 };

@@ -73,12 +73,6 @@ build CMakeFiles/sprint8_final.dir/transport_catalogue.cpp.obj: CXX_COMPILER__sp
   OBJECT_DIR = CMakeFiles\sprint8_final.dir
   OBJECT_FILE_DIR = CMakeFiles\sprint8_final.dir
 
-build CMakeFiles/sprint8_final.dir/transport_catalogue_test.cpp.obj: CXX_COMPILER__sprint8_final_unscanned_Debug C$:/Users/baranov_d/Documents/yandex/sprint8/sprint8_final/transport_catalogue_test.cpp || cmake_object_order_depends_target_sprint8_final
-  DEP_FILE = CMakeFiles\sprint8_final.dir\transport_catalogue_test.cpp.obj.d
-  FLAGS = -g
-  OBJECT_DIR = CMakeFiles\sprint8_final.dir
-  OBJECT_FILE_DIR = CMakeFiles\sprint8_final.dir
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target sprint8_final
@@ -87,7 +81,7 @@ build CMakeFiles/sprint8_final.dir/transport_catalogue_test.cpp.obj: CXX_COMPILE
 #############################################
 # Link the executable sprint8_final.exe
 
-build sprint8_final.exe: CXX_EXECUTABLE_LINKER__sprint8_final_Debug CMakeFiles/sprint8_final.dir/main.cpp.obj CMakeFiles/sprint8_final.dir/input_reader.cpp.obj CMakeFiles/sprint8_final.dir/stat_reader.cpp.obj CMakeFiles/sprint8_final.dir/transport_catalogue.cpp.obj CMakeFiles/sprint8_final.dir/transport_catalogue_test.cpp.obj
+build sprint8_final.exe: CXX_EXECUTABLE_LINKER__sprint8_final_Debug CMakeFiles/sprint8_final.dir/main.cpp.obj CMakeFiles/sprint8_final.dir/input_reader.cpp.obj CMakeFiles/sprint8_final.dir/stat_reader.cpp.obj CMakeFiles/sprint8_final.dir/transport_catalogue.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\sprint8_final.dir

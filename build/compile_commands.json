@@ -22,11 +22,5 @@
   "command": "C:\\Software\\msys64\\mingw64\\bin\\g++.exe -g -o CMakeFiles\\sprint8_final.dir\\transport_catalogue.cpp.obj -c C:\\Users\\baranov_d\\Documents\\yandex\\sprint8\\sprint8_final\\transport_catalogue.cpp",
   "file": "C:\\Users\\baranov_d\\Documents\\yandex\\sprint8\\sprint8_final\\transport_catalogue.cpp",
   "output": "CMakeFiles\\sprint8_final.dir\\transport_catalogue.cpp.obj"
-},
-{
-  "directory": "C:/Users/baranov_d/Documents/yandex/sprint8/sprint8_final/build",
-  "command": "C:\\Software\\msys64\\mingw64\\bin\\g++.exe -g -o CMakeFiles\\sprint8_final.dir\\transport_catalogue_test.cpp.obj -c C:\\Users\\baranov_d\\Documents\\yandex\\sprint8\\sprint8_final\\transport_catalogue_test.cpp",
-  "file": "C:\\Users\\baranov_d\\Documents\\yandex\\sprint8\\sprint8_final\\transport_catalogue_test.cpp",
-  "output": "CMakeFiles\\sprint8_final.dir\\transport_catalogue_test.cpp.obj"
 }
 ]
